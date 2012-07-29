@@ -20,7 +20,7 @@ enyo.kind({
 							{ kind: 'onyx.Input', name: 'acctKey', classes: 'stretch-input', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
 						]}
 					]}
-				]},
+				], rendered: function() { enyo.$.kanbanana.getProjects() }},
 				{ kind: "onyx.Toolbar", components: [
 					{ kind: "onyx.Button", content: "1" }
 				]}
