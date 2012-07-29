@@ -1,39 +1,37 @@
 enyo.kind({
-	name: "App",
-	kind: enyo.FittableRows,
-	classes: 'onyx',
+	name: "Kanbanana",
+	kind: 'FittableRows',
+	classes: 'onyx enyo-fit',
 	fit: true,
 	
 	components:[
-		{
-			kind: 'onyx.Groupbox',
-			components: [
-				{
-					kind: 'onyx.GroupboxHeader',
-					content: 'your information'
-				},
-				{
-					kind: 'onyx.InputDecorator',
-					components: [
-						{ kind: 'onyx.Input', name: 'email', placeHolder: 'e-mail' },
-					]
-				},
-				{
-					kind: 'onyx.InputDecorator',
-					components: [
-						{ kind: 'onyx.Input', name: 'key', placeHolder: 'api key' },
-					]
-				}
-			]
-		},
-		{ kind: 'onyx.Button', content: 'Get your projects', ontap: "getYourProjects" },
-		{
-			kind: 'enyo.Scroller',
-			fit: true,
-			components: [
-				{ tag: 'div', name: 'projects' }
-			]
-		}
+		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
+			{ kind: "FittableRows", components: [
+				{ fit: true, components: [
+					{ kind: 'onyx.Groupbox', components: [
+						{ kind: 'onyx.GroupboxHeader', content: 'your information' },
+						{ kind: 'onyx.InputDecorator', components: [
+							{ kind: 'onyx.Input', name: 'email', placeHolder: 'e-mail' },
+						]},
+						{ kind: 'onyx.InputDecorator', components: [
+							{ kind: 'onyx.Input', name: 'key', placeHolder: 'api key' },
+						]}
+					]}
+				]},
+				{ kind: "onyx.Toolbar", components: [
+					{ kind: "onyx.Button", content: "1" }
+				]}
+			]},
+			{ kind: "FittableRows", fit: true, classes: "fittable-shadow", components: [
+				{ kind: 'enyo.Scroller', fit: true, classes: "fittable-fitting-color", components: [
+					{ tag: 'div', name: 'projects', fit: true }
+				]},
+				{ kind: "onyx.Toolbar", components: [
+					{ kind: 'onyx.Button', content: 'Refresh', ontap: "getYourProjects" },
+					{ kind: "onyx.Button", content: "2" }
+				]}
+			]}
+		]}
 	],
 	
 	getYourProjects: function(inPlace, inEvent) {
