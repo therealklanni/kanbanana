@@ -14,10 +14,10 @@ enyo.kind({
 					{ kind: 'onyx.Groupbox', components: [
 						{ kind: 'onyx.GroupboxHeader', content: 'account information' },
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'acctEmail', placeHolder: 'e-mail', oninput: 'updateAcctEmail', value: localStorage.getItem('acctEmail') },
+							{ kind: 'onyx.Input', name: 'acctEmail', classes: 'stretch-input', placeHolder: 'e-mail', oninput: 'updateAcctEmail', value: localStorage.getItem('acctEmail') },
 						]},
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'acctKey', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
+							{ kind: 'onyx.Input', name: 'acctKey', classes: 'stretch-input', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
 						]}
 					]}
 				]},
@@ -30,14 +30,14 @@ enyo.kind({
 					{ tag: 'div', name: 'projects', fit: true }
 				]},
 				{ kind: "onyx.Toolbar", components: [
-					{ kind: 'onyx.Button', content: 'Refresh', ontap: "getYourProjects" },
+					{ kind: 'onyx.Button', content: 'Refresh', ontap: "getProjects" },
 					{ kind: "onyx.Button", content: "2" }
 				]}
 			]}
 		]}
 	],
 	
-	getYourProjects: function(inPlace, inEvent) {
+	getProjects: function(inPlace, inEvent) {
 		xhr = new enyo.Ajax({ url: 'proxy.php' })
 		
 		xhr.response(enyo.bind(this, 'updateProjects'))
