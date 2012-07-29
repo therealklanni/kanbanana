@@ -1,7 +1,7 @@
 enyo.depends(
 	'$lib/layout',
 	'$lib/onyx',
-	'App.css',
-	'App.js',
+	'Kanbanana.css',
+	'Kanbanana.js',
 	'Project.js'
 );
