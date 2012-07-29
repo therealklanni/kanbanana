@@ -4,17 +4,20 @@ enyo.kind({
 	classes: 'onyx enyo-fit',
 	fit: true,
 	
+	acctEmail: localStorage.getItem('acctEmail'),
+	acctKey: localStorage.getItem('acctKey'),
+	
 	components:[
 		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
 			{ kind: "FittableRows", components: [
 				{ fit: true, components: [
 					{ kind: 'onyx.Groupbox', components: [
-						{ kind: 'onyx.GroupboxHeader', content: 'your information' },
+						{ kind: 'onyx.GroupboxHeader', content: 'account information' },
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'email', placeHolder: 'e-mail' },
+							{ kind: 'onyx.Input', name: 'acctEmail', placeHolder: 'e-mail', oninput: 'updateAcctEmail', value: localStorage.getItem('acctEmail') },
 						]},
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'key', placeHolder: 'api key' },
+							{ kind: 'onyx.Input', name: 'acctKey', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
 						]}
 					]}
 				]},
@@ -42,8 +45,8 @@ enyo.kind({
 		xhr.go({
 			path: 'projects.json',
 			// These values are hardcoded for testing purposes only
-			email: 'klanni@newanglemedia.com',
-			key: 'e7a2a07906efc47f0c3dbd7017c3c49c184d1269'
+			email: this.acctEmail,
+			key: this.acctKey
 		})
 	},
 	
@@ -71,5 +74,13 @@ enyo.kind({
 			
 			projects.render()
 		}
+	},
+	
+	updateAcctEmail: function(inRequest) {
+		localStorage.setItem('acctEmail', this.acctEmail = inRequest.eventNode.value)
+	},
+	
+	updateAcctKey: function(inRequest) {
+		localStorage.setItem('acctKey', this.acctKey = inRequest.eventNode.value)
 	}
 });
