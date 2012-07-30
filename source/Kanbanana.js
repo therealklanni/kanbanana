@@ -10,6 +10,9 @@ enyo.kind({
 	components:[
 		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
 			{ kind: "FittableRows", components: [
+				{ kind: 'onyx.Toolbar', components: [
+					{ tag: 'h5', content: 'Kanbanana' }
+				]},
 				{ fit: true, components: [
 					{ kind: 'onyx.Groupbox', components: [
 						{ kind: 'onyx.GroupboxHeader', content: 'account information' },
@@ -26,10 +29,14 @@ enyo.kind({
 				]}
 			]},
 			{ kind: "FittableRows", fit: true, classes: "fittable-shadow", components: [
+				{ kind: 'onyx.Toolbar', components: [
+					{ tag: 'h5', content: 'Your Projects' }
+				]},
 				{ kind: 'enyo.Scroller', fit: true, classes: "fittable-fitting-color", components: [
 					{ tag: 'div', name: 'projects', fit: true }
 				]},
 				{ kind: "onyx.Toolbar", components: [
+					{ kind: 'onyx.Grabber' },
 					{ kind: 'onyx.Button', content: 'Refresh', ontap: "getProjects" },
 					{ kind: "onyx.Button", content: "2" }
 				]}
@@ -52,10 +59,19 @@ enyo.kind({
 	
 	updateProjects: function(inRequest, inResponse) {
 		console.debug('response',inResponse)
-		
 		if (inResponse instanceof Array) {
-			list = new enyo.Control
+			var list = new enyo.Control,
 			projects = this.$.projects
+			
+			inResponse = inResponse.map(function(e,i,a) {
+				e.created_at = new Date(e.created_at)
+				e.updated_at = new Date(e.updated_at)
+				
+				return e;
+			})
+			.sort(function(a,b) {
+				return b.updated_at.valueOf() - a.updated_at.valueOf()
+			})
 			
 			enyo.forEach(inResponse, function(e,i,a) {
 				list.createComponent({
@@ -67,8 +83,8 @@ enyo.kind({
 					orgId: e.organization_id,
 					wipLimit: e.wip_limit,
 					privacy: e.privacy,
-					created: e.created,
-					updated: e.updated
+					created: e.created_at.toUTCString(),
+					updated: e.updated_at.toUTCString()
 				})
 			})
 			
