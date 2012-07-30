@@ -1,64 +1,80 @@
 enyo.kind({
-	name: 'Project',
+	name: 'ProjectList',
 	kind: 'Control',
-	tag: 'div',
 	
-	published: {
-		title: null,
-		slug: null,
-		orgId: null,
-		wipLimit: null,
-		privacy: null,
-		created: null,
-		updated: null
-	},
+	acctEmail: localStorage.getItem('acctEmail'),
+	acctKey: localStorage.getItem('acctKey'),
+	
+	projects: null,
 	
 	components: [
-		{ tag: 'div', name: 'title' },
-		{ tag: 'div', name: 'slug' },
-		{ tag: 'div', name: 'orgId' },
-		{ tag: 'div', name: 'wipLimit' },
-		{ tag: 'div', name: 'privacy' },
-		{ tag: 'div', name: 'created' },
-		{ tag: 'div', name: 'updated' }
+		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
+			{ ontap: 'projectTap', classes: 'list-pulldown-item', components: [
+				{ tag: 'div', name: 'privacy', classes: 'project privacy' },
+				{ tag: 'div', name: 'title', classes: 'project title' },
+				{ tag: 'div', name: 'wipLimit', classes: 'project wipLimit' },
+				{ tag: 'div', name: 'updated', classes: 'project updated' }
+			]}
+		]}
 	],
 	
-	create: function() {
-		this.inherited(arguments)
-		this.titleChanged()
-		this.slugChanged()
-		this.orgIdChanged()
-		this.wipLimitChanged()
-		this.privacyChanged()
-		this.createdChanged()
-		this.updatedChanged()
+	rendered: function() {
+		this.getProjects()
 	},
 	
-	titleChanged: function() {
-		this.$.title.setContent(this.title)
+	pullRelease: function() {
+		this.pulled = true
+		this.getProjects()
 	},
 	
-	slugChanged: function() {
-		this.$.slug.setContent(this.slug)
+	pullComplete: function () {
+		this.pulled = false
+		this.$.projectList.reset()
 	},
 	
-	orgIdChanged: function() {
-		this.$.orgId.setContent(this.orgId)
+	projectTap: function(inSender, inEvent) {
+		console.debug('tap',this.projects[inEvent.index].name)
 	},
 	
-	wipLimitChanged: function() {
-		this.$.wipLimit.setContent(this.wipLimit)
+	getProjects: function(inPlace, inEvent) {
+		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		
+		xhr.response(enyo.bind(this, 'updateProjects'))
+		
+		xhr.go({
+			path: 'projects.json',
+			email: this.acctEmail,
+			key: this.acctKey
+		})
 	},
 	
-	privacyChanged: function() {
-		this.$.privacy.setContent(this.privacy)
+	updateProjects: function(inRequest, inResponse) {
+		console.debug('response',inResponse)
+		if (inResponse instanceof Array) {
+			this.projects = inResponse.map(function(e,i,a) {
+				e.created_at = new Date(e.created_at)
+				e.updated_at = new Date(e.updated_at)
+				
+				return e;
+			})
+			
+			this.$.projectList.setCount(this.projects.length)
+		}
+		
+		if (this.pulled) {
+			this.$.projectList.completePull()
+		} else {
+			this.$.projectList.reset()
+		}
 	},
 	
-	createdChanged: function() {
-		this.$.created.setContent(this.created)
+	setupProject: function(inSender, inEvent) {
+		var i = inEvent.index
+		var project = this.projects[i]
+		
+		this.$.title.setContent(project.name)
+		this.$.wipLimit.setContent(project.wip_limit)
+		this.$.privacy.setContent(project.privacy ? 'private' : '')
+		this.$.updated.setContent(new Date(project.updated_at).toUTCString())
 	},
-	
-	updatedChanged: function() {
-		this.$.updated.setContent(this.updated)
-	}
 })

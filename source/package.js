@@ -3,5 +3,6 @@ enyo.depends(
 	'$lib/onyx',
 	'Kanbanana.css',
 	'Kanbanana.js',
-	'Project.js'
+	'Project.js',
+	'Project.css'
 );
