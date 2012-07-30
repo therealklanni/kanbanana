@@ -1,5 +1,5 @@
 enyo.kind({
-	name: "Kanbanana",
+	name: 'Kanbanana',
 	kind: 'FittableRows',
 	classes: 'onyx enyo-fit',
 	fit: true,
@@ -7,9 +7,11 @@ enyo.kind({
 	acctEmail: localStorage.getItem('acctEmail'),
 	acctKey: localStorage.getItem('acctKey'),
 	
+	projects: null,
+	
 	components:[
 		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
-			{ kind: "FittableRows", components: [
+			{ kind: 'FittableRows', components: [
 				{ kind: 'onyx.Toolbar', components: [
 					{ tag: 'h5', content: 'Kanbanana' }
 				]},
@@ -24,21 +26,21 @@ enyo.kind({
 						]}
 					]}
 				], rendered: function() { enyo.$.kanbanana.getProjects() }},
-				{ kind: "onyx.Toolbar", components: [
-					{ kind: "onyx.Button", content: "1" }
+				{ kind: 'onyx.Toolbar', components: [
+					{ kind: 'onyx.Button', content: '1' }
 				]}
 			]},
-			{ kind: "FittableRows", fit: true, classes: "fittable-shadow", components: [
+			{ kind: 'FittableRows', fit: true, classes: 'fittable-shadow', components: [
 				{ kind: 'onyx.Toolbar', components: [
 					{ tag: 'h5', content: 'Your Projects' }
 				]},
-				{ kind: 'enyo.Scroller', fit: true, classes: "fittable-fitting-color", components: [
+				{ kind: 'enyo.Scroller', fit: true, classes: 'fittable-fitting-color', components: [
 					{ tag: 'div', name: 'projects', fit: true }
 				]},
-				{ kind: "onyx.Toolbar", components: [
+				{ kind: 'onyx.Toolbar', components: [
 					{ kind: 'onyx.Grabber' },
-					{ kind: 'onyx.Button', content: 'Refresh', ontap: "getProjects" },
-					{ kind: "onyx.Button", content: "2" }
+					{ kind: 'onyx.Button', content: 'Refresh', ontap: 'getProjects' },
+					{ kind: 'onyx.Button', content: '2' }
 				]}
 			]}
 		]}
@@ -60,10 +62,10 @@ enyo.kind({
 	updateProjects: function(inRequest, inResponse) {
 		console.debug('response',inResponse)
 		if (inResponse instanceof Array) {
-			var list = new enyo.Control,
+			var list = new enyo.Control
 			projects = this.$.projects
 			
-			inResponse = inResponse.map(function(e,i,a) {
+			this.projects = inResponse.map(function(e,i,a) {
 				e.created_at = new Date(e.created_at)
 				e.updated_at = new Date(e.updated_at)
 				
@@ -73,19 +75,32 @@ enyo.kind({
 				return b.updated_at.valueOf() - a.updated_at.valueOf()
 			})
 			
-			enyo.forEach(inResponse, function(e,i,a) {
-				list.createComponent({
-					kind: Project,
-					container: projects,
-					
-					title: e.name,
-					slug: e.slug,
-					orgId: e.organization_id,
-					wipLimit: e.wip_limit,
-					privacy: e.privacy,
-					created: e.created_at.toUTCString(),
-					updated: e.updated_at.toUTCString()
-				})
+			enyo.forEach(this.projects, function(e) {
+				// Check if this Project control was already generated
+				if (!!enyo.$['control_project_'+e.slug]) {
+					p = enyo.$['control_project_'+e.slug]
+					p.setTitle(e.name)
+					p.setSlug(e.slug)
+					p.setOrgId(e.organization_id)
+					p.setWipLimit(e.wip_limit)
+					p.setPrivacy(e.privacy)
+					p.setCreated(e.created_at.toUTCString())
+					p.setUpdated(e.updated_at.toUTCString())
+				} else {
+					list.createComponent({
+						kind: Project,
+						container: projects,
+						name: 'project_'+e.slug,
+						
+						title: e.name,
+						slug: e.slug,
+						orgId: e.organization_id,
+						wipLimit: e.wip_limit,
+						privacy: e.privacy,
+						created: e.created_at.toUTCString(),
+						updated: e.updated_at.toUTCString()
+					})
+				}
 			})
 			
 			projects.render()

@@ -1,6 +1,6 @@
 enyo.kind({
 	name: 'Project',
-	kind: enyo.Control,
+	kind: 'Control',
 	tag: 'div',
 	
 	published: {
@@ -20,7 +20,7 @@ enyo.kind({
 		{ tag: 'div', name: 'wipLimit' },
 		{ tag: 'div', name: 'privacy' },
 		{ tag: 'div', name: 'created' },
-		{ tag: 'div', name: 'updated' },
+		{ tag: 'div', name: 'updated' }
 	],
 	
 	create: function() {
