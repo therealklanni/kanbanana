@@ -37,15 +37,11 @@ enyo.kind({
 	},
 	
 	getProjects: function(inPlace, inEvent) {
-		xhr = new enyo.Ajax({ url: 'project.json' })
+		xhr = new enyo.Ajax({ url: 'projects.json' })
 		
 		xhr.response(enyo.bind(this, 'updateProjects'))
 		
-		xhr.go({
-			path: 'projects.json',
-			email: this.acctEmail,
-			key: this.acctKey
-		})
+		xhr.go()
 	},
 	
 	updateProjects: function(inRequest, inResponse) {
