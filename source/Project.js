@@ -8,8 +8,8 @@ enyo.kind({
 	projects: null,
 	
 	components: [
-		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
-			{ ontap: 'projectTap', classes: 'list-pulldown-item', components: [
+		{ kind: 'PulldownList', name: 'projectList', classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
+			{ ontap: 'projectTap', classes: 'list-pulldown-item enyo-border-box', components: [
 				{ tag: 'div', name: 'privacy', classes: 'project privacy' },
 				{ tag: 'div', name: 'title', classes: 'project title' },
 				{ tag: 'div', name: 'wipLimit', classes: 'project wipLimit' },
@@ -37,7 +37,7 @@ enyo.kind({
 	},
 	
 	getProjects: function(inPlace, inEvent) {
-		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		xhr = new enyo.Ajax({ url: 'project.json' })
 		
 		xhr.response(enyo.bind(this, 'updateProjects'))
 		

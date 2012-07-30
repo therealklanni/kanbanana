@@ -1,0 +1,35 @@
+[
+    {
+        "created_at": "2011-03-13T00:05:21Z",
+        "email": "demo@demo.test",
+        "id": "49a76d7c000a4108f2f5500e",
+        "name": "Testing",
+        "organization_id": null,
+        "privacy": 3,
+        "slug": "31f509a7139c25c1f3ca",
+        "updated_at": "2012-07-30T21:16:12Z",
+        "wip_limit": 10
+    },
+    {
+        "created_at": "2012-04-13T16:43:50Z",
+        "email": "demo@demo.test",
+        "id": "4f8854007907c6fad746ec17",
+        "name": "Project A",
+        "organization_id": null,
+        "privacy": 3,
+        "slug": "6e85d8af20b7424fac9b",
+        "updated_at": "2012-07-30T20:21:55Z",
+        "wip_limit": 10
+    },
+    {
+        "created_at": "2012-04-13T16:49:26Z",
+        "email": "demo@demo.test",
+        "id": "4f348b9165078575018000c9",
+        "name": "Project B",
+        "organization_id": "4f1b088591657507800034c6",
+        "privacy": 0,
+        "slug": "184da58552339999d355",
+        "updated_at": "2012-04-13T16:49:26Z",
+        "wip_limit": 10
+    }
+]
