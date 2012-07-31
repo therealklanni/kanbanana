@@ -39,6 +39,12 @@ enyo.kind({
 	
 	projectTap: function(inSender, inEvent) {
 		console.debug('tap',this.projects[inEvent.index].name)
+		new Board({
+			projectName: this.projects[inEvent.index].name,
+			container: enyo.$.kanbanana_panels
+		})
+		
+		enyo.$.kanbanana_panels.render()
 	},
 	
 	getProjects: function(inPlace, inEvent) {
