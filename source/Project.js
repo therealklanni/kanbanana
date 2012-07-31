@@ -8,17 +8,22 @@ enyo.kind({
 	projects: null,
 	
 	components: [
-		{ kind: 'PulldownList', name: 'projectList', classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
+		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
 			{ ontap: 'projectTap', classes: 'list-pulldown-item enyo-border-box', components: [
-				{ tag: 'div', name: 'privacy', classes: 'project privacy' },
-				{ tag: 'div', name: 'title', classes: 'project title' },
-				{ tag: 'div', name: 'wipLimit', classes: 'project wipLimit' },
-				{ tag: 'div', name: 'updated', classes: 'project updated' }
+				{ name: 'privacy', classes: 'project privacy' },
+				{ name: 'title', classes: 'project title' },
+				{ name: 'wipLimit', classes: 'project wipLimit' },
+				{ name: 'updated', classes: 'project updated' }
 			]}
 		]}
 	],
 	
+	create: function() {
+		this.inherited(arguments)
+	},
+	
 	rendered: function() {
+		this.inherited(arguments)
 		this.getProjects()
 	},
 	

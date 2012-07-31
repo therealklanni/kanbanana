@@ -20,7 +20,7 @@ enyo.kind({
 							{ kind: 'onyx.Input', name: 'acctKey', classes: 'stretch-input', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
 						]}
 					]}
-				]/*, rendered: function() { enyo.$.kanbanana.getProjects() }*/},
+				]},
 				{ kind: 'onyx.Toolbar', components: [
 					{ kind: 'onyx.Button', content: '1' }
 				]}
@@ -38,6 +38,10 @@ enyo.kind({
 			]}
 		]}
 	],
+	
+	create: function() {
+		this.inherited(arguments)
+	},
 	
 	updateAcctEmail: function(inRequest) {
 		localStorage.setItem('acctEmail', this.acctEmail = inRequest.eventNode.value)
