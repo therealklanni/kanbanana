@@ -4,5 +4,6 @@ enyo.depends(
 	'Kanbanana.css',
 	'Kanbanana.js',
 	'Project.js',
-	'Project.css'
+	'Project.css',
+	'Board.js'
 );
