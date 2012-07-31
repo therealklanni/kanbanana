@@ -1,6 +1,6 @@
 enyo.kind({
 	name: 'ProjectList',
-	kind: 'Control',
+	kind: 'FittableRows',
 	
 	acctEmail: localStorage.getItem('acctEmail'),
 	acctKey: localStorage.getItem('acctKey'),

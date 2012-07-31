@@ -2,13 +2,12 @@ enyo.kind({
 	name: 'Kanbanana',
 	kind: 'FittableRows',
 	classes: 'onyx enyo-fit',
-	fit: true,
 	
 	components:[
 		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
 			{ kind: 'FittableRows', components: [
 				{ kind: 'onyx.Toolbar', components: [
-					{ tag: 'h5', content: 'Kanbanana' }
+					{ tag: 'h5', content: 'Kanbanana', classes: 'kanbanana title' }
 				]},
 				{ fit: true, components: [
 					{ kind: 'onyx.Groupbox', components: [
@@ -25,14 +24,13 @@ enyo.kind({
 					{ kind: 'onyx.Button', content: '1' }
 				]}
 			]},
-			{ kind: 'FittableRows', fit: true, classes: 'fittable-shadow', components: [
+			{ kind: 'FittableRows', classes: 'fittable-shadow', components: [
 				{ kind: 'onyx.Toolbar', components: [
 					{ tag: 'h5', content: 'Your Projects' }
 				]},
-				{ kind: 'ProjectList' },
+				{ kind: 'ProjectList', fit: true },
 				{ kind: 'onyx.Toolbar', components: [
 					{ kind: 'onyx.Grabber' },
-					{ kind: 'onyx.Button', content: 'Refresh', ontap: 'getProjects' },
 					{ kind: 'onyx.Button', content: '2' }
 				]}
 			]}
