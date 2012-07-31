@@ -61,6 +61,8 @@ enyo.kind({
 				e.updated_at = new Date(e.updated_at)
 				
 				return e;
+			}).sort(function(a,b) {
+				return b.updated_at.valueOf() - a.updated_at.valueOf()
 			})
 			
 			this.$.projectList.setCount(this.projects.length)
@@ -80,6 +82,6 @@ enyo.kind({
 		this.$.title.setContent(project.name)
 		this.$.wipLimit.setContent(project.wip_limit)
 		this.$.privacy.setContent(project.privacy ? 'private' : '')
-		this.$.updated.setContent(new Date(project.updated_at).toUTCString())
+		this.$.updated.setContent(project.updated_at.toUTCString())
 	},
 })
