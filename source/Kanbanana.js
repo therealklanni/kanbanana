@@ -13,10 +13,10 @@ enyo.kind({
 					{ kind: 'onyx.Groupbox', components: [
 						{ kind: 'onyx.GroupboxHeader', content: 'account information' },
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'acctEmail', classes: 'stretch-input', placeHolder: 'e-mail', oninput: 'updateAcctEmail', value: localStorage.getItem('acctEmail') },
+							{ kind: 'onyx.Input', name: 'acctEmail', classes: 'stretch-input', placeholder: 'e-mail', oninput: 'updateAcctEmail', value: localStorage.getItem('acctEmail') },
 						]},
 						{ kind: 'onyx.InputDecorator', components: [
-							{ kind: 'onyx.Input', name: 'acctKey', classes: 'stretch-input', placeHolder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
+							{ kind: 'onyx.Input', name: 'acctKey', classes: 'stretch-input', placeholder: 'api key', oninput: 'updateAcctKey', value: localStorage.getItem('acctKey') },
 						]}
 					]}
 				]},
