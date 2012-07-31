@@ -18,6 +18,10 @@ enyo.kind({
 		]}
 	],
 	
+	create: function() {
+		this.inherited(arguments)
+	},
+	
 	rendered: function() {
 		this.inherited(arguments)
 		this.getProjects()

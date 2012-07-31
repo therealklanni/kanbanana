@@ -39,6 +39,10 @@ enyo.kind({
 		]}
 	],
 	
+	create: function() {
+		this.inherited(arguments)
+	},
+	
 	updateAcctEmail: function(inRequest) {
 		localStorage.setItem('acctEmail', this.acctEmail = inRequest.eventNode.value)
 	},
