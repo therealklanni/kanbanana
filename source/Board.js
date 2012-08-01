@@ -10,6 +10,10 @@ enyo.kind({
 	components: [
 		{ kind: 'onyx.Toolbar', components: [
 			{ tag: 'h5', name: 'projectName' }
+		]},
+		{ fit: true },
+		{ kind: 'onyx.Toolbar', components: [
+			{ kind: 'onyx.Grabber' }
 		]}
 	],
 	
