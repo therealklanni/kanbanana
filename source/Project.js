@@ -38,13 +38,16 @@ enyo.kind({
 	},
 	
 	projectTap: function(inSender, inEvent) {
-		console.debug('tap',this.projects[inEvent.index].name)
+		var panels = enyo.$.kanbanana_panels
+		console.debug('tap',this.projects[inEvent.index].name, panels.index)
+		
 		new Board({
+			name: 'board_'+ this.projects[inEvent.index].name.split(' ').join('_').toLowerCase(),
 			projectName: this.projects[inEvent.index].name,
-			container: enyo.$.kanbanana_panels
+			container: panels
 		})
 		
-		enyo.$.kanbanana_panels.render()
+		panels.render()
 	},
 	
 	getProjects: function(inPlace, inEvent) {
