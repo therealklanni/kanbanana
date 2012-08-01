@@ -38,13 +38,30 @@ enyo.kind({
 	},
 	
 	projectTap: function(inSender, inEvent) {
-		console.debug('tap',this.projects[inEvent.index].name)
-		new Board({
-			projectName: this.projects[inEvent.index].name,
-			container: enyo.$.kanbanana_panels
+		var panels = enyo.$.kanbanana_panels,
+		boardName = 'board_'+ this.projects[inEvent.index].name.split(' ').join('_').toLowerCase()
+		
+		// Hide all but requested board
+		enyo.forEach(panels.getPanels().filter(function(panel) {
+			return panels.getPanels().indexOf(panel) > 1
+		}), function(panel) {
+			panel.setShowing(panel.name === boardName)
+			// Need to figure out how to make the shown panel size properly
 		})
 		
-		enyo.$.kanbanana_panels.render()
+		// If requested board doesn't exist, create it
+		if (!enyo.$[boardName]) {
+			new Board({
+				name: boardName,
+				projectName: this.projects[inEvent.index].name,
+				container: panels
+			})
+		}
+		
+		panels.render()
+		
+		// Make 'Your Projects' the active panel
+		panels.setIndex(1)
 	},
 	
 	getProjects: function(inPlace, inEvent) {
