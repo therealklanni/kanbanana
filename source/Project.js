@@ -8,7 +8,7 @@ enyo.kind({
 	projects: null,
 	
 	components: [
-		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupProject', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
+		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupItem', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
 			{ ontap: 'projectTap', classes: 'list-pulldown-item enyo-border-box', components: [
 				{ name: 'privacy', classes: 'project privacy' },
 				{ name: 'title', classes: 'project title' },
@@ -67,13 +67,12 @@ enyo.kind({
 	getProjects: function(inPlace, inEvent) {
 		xhr = new enyo.Ajax({ url: 'projects.json' })
 		
-		xhr.response(enyo.bind(this, 'updateProjects'))
+		xhr.response(enyo.bind(this, 'updateProjectList'))
 		
 		xhr.go()
 	},
 	
-	updateProjects: function(inRequest, inResponse) {
-		console.debug('response',inResponse)
+	updateProjectList: function(inRequest, inResponse) {
 		if (inResponse instanceof Array) {
 			this.projects = inResponse.map(function(e,i,a) {
 				e.created_at = new Date(e.created_at)
@@ -94,7 +93,7 @@ enyo.kind({
 		}
 	},
 	
-	setupProject: function(inSender, inEvent) {
+	setupItem: function(inSender, inEvent) {
 		var i = inEvent.index
 		var project = this.projects[i]
 		
@@ -103,4 +102,51 @@ enyo.kind({
 		this.$.privacy.setContent(project.privacy ? 'private' : '')
 		this.$.updated.setContent(project.updated_at.toUTCString())
 	},
+})
+
+enyo.kind({
+	name: 'Project',
+	kind: 'Component',
+	
+	steps: [],
+	
+	slug: '',
+	orgId: '',
+	created: new Date(),
+	
+	published: {
+		title: '',
+		wipLimit: 0,
+		privacy: false,
+		updated: new Date()
+	},
+	
+	create: function() {
+		this.inherited(arguments)
+		
+		if (this.slug) {
+			this.pullData()
+		}
+	},
+	
+	// Pull data from API
+	pullData: function() {
+		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		
+		xhr.response(enyo.bind(this, 'updateProject'))
+		
+		xhr.go({
+			path: 'projects/'+this.slug+'/steps.json',
+			email: this.acctEmail,
+			key: this.acctKey
+		})
+	},
+	
+	updateProject: function(inRequest, inResponse) {
+		var self = this
+		
+		enyo.forEach(inResponse, function(step) {
+			self.steps.push(new Step(step))
+		})
+	}
 })
