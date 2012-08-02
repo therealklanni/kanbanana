@@ -4,12 +4,12 @@ enyo.kind({
 	classes: 'fittable-shadow',
 	
 	published: {
-		projectName: null,
+		title: null,
 	},
 	
 	components: [
 		{ kind: 'onyx.Toolbar', components: [
-			{ tag: 'h5', name: 'projectName' }
+			{ tag: 'h5', name: 'title' }
 		]},
 		{ fit: true },
 		{ kind: 'onyx.Toolbar', components: [
@@ -17,24 +17,12 @@ enyo.kind({
 		]}
 	],
 	
-	//constructor: function() {
-	//	this.instanceArray = []
-	//	this.inherited(arguments)
-	//	this.components = [
-	//		{ kind: 'onyx.Toolbar', components: [
-	//			{ tag: 'h5', name: 'projectName' }
-	//		]}
-	//	]
-	//	
-	//	console.debug(this)
-	//},
-	
 	create: function() {
 		this.inherited(arguments)
-		this.projectNameChanged()
+		this.titleChanged()
 	},
 	
-	projectNameChanged: function() {
-		this.$.projectName.setContent(this.projectName)
+	titleChanged: function() {
+		this.$.title.setContent(this.title)
 	}
 })
