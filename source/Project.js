@@ -82,7 +82,7 @@ enyo.kind({
 		if (inResponse instanceof Array) {
 			enyo.forEach(inResponse.sort(function(a,b) {
 				return b.updated_at - a.updated_at
-			}).map(function(e,i,a) {
+			}).map(function(e) {
 				return {
 					title: e.name,
 					slug: e.slug,
@@ -96,7 +96,13 @@ enyo.kind({
 					acctKey: self.acctKey
 				}
 			}), function(project) {
-				self.projects.push(new Project(project))
+				var slugs = self.projects.map(function(e) {
+					return e.slug
+				})
+				
+				if (slugs.indexOf(project.slug) === -1) {
+					self.projects.push(new Project(project))
+				}
 			})
 			
 			this.$.projectList.setCount(this.projects.length)
