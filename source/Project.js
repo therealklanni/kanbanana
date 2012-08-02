@@ -5,7 +5,7 @@ enyo.kind({
 	acctEmail: localStorage.getItem('acctEmail'),
 	acctKey: localStorage.getItem('acctKey'),
 	
-	projects: null,
+	projects: [],
 	
 	components: [
 		{ kind: 'PulldownList', name: 'projectList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupItem', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
@@ -73,14 +73,26 @@ enyo.kind({
 	},
 	
 	updateProjectList: function(inRequest, inResponse) {
+		var self = this
+		
 		if (inResponse instanceof Array) {
-			this.projects = inResponse.map(function(e,i,a) {
-				e.created_at = new Date(e.created_at)
-				e.updated_at = new Date(e.updated_at)
-				
-				return e;
-			}).sort(function(a,b) {
-				return b.updated_at.valueOf() - a.updated_at.valueOf()
+			enyo.forEach(inResponse.sort(function(a,b) {
+				return b.updated_at - a.updated_at
+			}).map(function(e,i,a) {
+				return {
+					title: e.name,
+					slug: e.slug,
+					orgId: e.organization_id,
+					wipLimit: e.wip_limit,
+					privacy: e.privacy,
+					created: new Date(e.created_at),
+					updated: new Date(e.updated_at),
+					
+					acctEmail: self.acctEmail,
+					acctKey: self.acctKey
+				}
+			}), function(project) {
+				self.projects.push(new Project(project))
 			})
 			
 			this.$.projectList.setCount(this.projects.length)
@@ -97,10 +109,10 @@ enyo.kind({
 		var i = inEvent.index
 		var project = this.projects[i]
 		
-		this.$.title.setContent(project.name)
-		this.$.wipLimit.setContent(project.wip_limit)
+		this.$.title.setContent(project.title)
+		this.$.wipLimit.setContent(project.wipLimit)
 		this.$.privacy.setContent(project.privacy ? 'private' : '')
-		this.$.updated.setContent(project.updated_at.toUTCString())
+		this.$.updated.setContent(project.updated.toUTCString())
 	},
 })
 
@@ -124,21 +136,37 @@ enyo.kind({
 	create: function() {
 		this.inherited(arguments)
 		
-		if (this.slug) {
-			this.pullData()
-		}
+		this.getSteps()
 	},
 	
-	// Pull data from API
-	pullData: function() {
-		xhr = new enyo.Ajax({ url: 'steps.json' })
+	getProject: function() {
+		xhr = new enyo.Ajax({ url: 'project.json' })
 		
 		xhr.response(enyo.bind(this, 'updateProject'))
 		
 		xhr.go()
 	},
 	
+	getSteps: function() {
+		xhr = new enyo.Ajax({ url: 'steps.json' })
+		
+		xhr.response(enyo.bind(this, 'updateSteps'))
+		
+		xhr.go()
+	},
+	
 	updateProject: function(inRequest, inResponse) {
+		this.slug = inResponse.slug,
+		this.orgId = inResponse.organization_id,
+		this.created = new Date(inResponse.created_at)
+		
+		this.setTitle(inResponse.name)
+		this.setWipLimit(inResponse.wip_limit)
+		this.setPrivacy(inResponse.privacy)
+		this.update(new Date(inResponse.updated_at))
+	},
+	
+	updateSteps: function(inRequest, inResponse) {
 		var self = this
 		
 		enyo.forEach(inResponse, function(step) {

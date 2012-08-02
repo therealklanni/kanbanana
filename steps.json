@@ -1,22 +1,22 @@
 [
 	{
-		id: 'j5ru84589ug9485jkfhiu459',
-		name: 'Planning'
+		"id": "j5ru84589ug9485jkfhiu459",
+		"name": "Planning"
 	},
 	{
-		id: '84589ugfhiu485jkru59j594',
-		name: 'Design'
+		"id": "84589ugfhiu485jkru59j594",
+		"name": "Design"
 	},
 	{
-		id: '89ug9485jkfhj5ru845iu459',
-		name: 'Development'
+		"id": "89ug9485jkfhj5ru845iu459",
+		"name": "Development"
 	},
 	{
-		id: '9ug9485jkfhiu4j5ru845859',
-		name: 'Testing'
+		"id": "9ug9485jkfhiu4j5ru845859",
+		"name": "Testing"
 	},
 	{
-		id: '84589485jjfhiu4595ruk9ug',
-		name: 'Released'
-	},
+		"id": "84589485jjfhiu4595ruk9ug",
+		"name": "Released"
+	}
 ]
