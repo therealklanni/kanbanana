@@ -39,7 +39,7 @@ enyo.kind({
 	
 	projectTap: function(inSender, inEvent) {
 		var panels = enyo.$.kanbanana_panels,
-		boardName = 'board_'+ this.projects[inEvent.index].name.split(' ').join('_').toLowerCase()
+		boardName = 'board_'+ this.projects[inEvent.index].getTitle().split(' ').join('_').toLowerCase()
 		
 		// Hide all but requested board
 		enyo.forEach(panels.getPanels().filter(function(panel) {
@@ -53,7 +53,7 @@ enyo.kind({
 		if (!enyo.$[boardName]) {
 			new Board({
 				name: boardName,
-				projectName: this.projects[inEvent.index].name,
+				title: this.projects[inEvent.index].getTitle(),
 				container: panels
 			})
 		}
@@ -102,6 +102,8 @@ enyo.kind({
 				
 				if (slugs.indexOf(project.slug) === -1) {
 					self.projects.push(new Project(project))
+				} else {
+					// Update existing objects
 				}
 			})
 			

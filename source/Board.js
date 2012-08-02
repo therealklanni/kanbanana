@@ -4,7 +4,7 @@ enyo.kind({
 	classes: 'fittable-shadow',
 	
 	published: {
-		title: null,
+		title: '',
 	},
 	
 	components: [
