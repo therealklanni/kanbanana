@@ -131,15 +131,11 @@ enyo.kind({
 	
 	// Pull data from API
 	pullData: function() {
-		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		xhr = new enyo.Ajax({ url: 'steps.json' })
 		
 		xhr.response(enyo.bind(this, 'updateProject'))
 		
-		xhr.go({
-			path: 'projects/'+this.slug+'/steps.json',
-			email: this.acctEmail,
-			key: this.acctKey
-		})
+		xhr.go()
 	},
 	
 	updateProject: function(inRequest, inResponse) {
