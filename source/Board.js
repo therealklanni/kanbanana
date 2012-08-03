@@ -4,7 +4,7 @@ enyo.kind({
 	classes: 'fittable-shadow',
 	
 	published: {
-		title: '',
+		project: {}
 	},
 	
 	components: [
@@ -19,10 +19,10 @@ enyo.kind({
 	
 	create: function() {
 		this.inherited(arguments)
-		this.titleChanged()
+		this.projectChanged()
 	},
 	
-	titleChanged: function() {
-		this.$.title.setContent(this.title)
+	projectChanged: function() {
+		this.$.title.setContent(this.project.title)
 	}
 })
