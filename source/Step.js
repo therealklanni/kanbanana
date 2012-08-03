@@ -3,7 +3,6 @@ enyo.kind({
 	kind: 'Component',
 	
 	published: {
-		stepId: '',
 		stepName: '',
 		queueName: '',
 		wipName: '',
@@ -16,12 +15,32 @@ enyo.kind({
 	name: 'StepSlide',
 	kind: 'FittableRows',
 	
+	published: {
+		stepName: '',
+		queueName: '',
+		wipName: '',
+		allLimit: 0,
+		wipLimit: 0
+	},
+	
 	components: [
 		{ kind: 'FittableRows', fit: true, components: [
 			{ kind: 'onyx.Toolbar', components: [
 				{ tag: 'h5', name: 'stepName' }
 			]},
-			{ fit: true }
+			{ fit: true },
+			{ kind: 'onyx.Toolbar', components: [
+				{ kind: 'onyx.Grabber' }
+			]}
 		]}
-	]
+	],
+	
+	create: function() {
+		this.inherited(arguments)
+		this.stepNameChanged()
+	},
+	
+	stepNameChanged: function() {
+		this.$.stepName.setContent(this.stepName)
+	}
 })

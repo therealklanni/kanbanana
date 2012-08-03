@@ -11,9 +11,7 @@ enyo.kind({
 		{ kind: 'onyx.Toolbar', components: [
 			{ tag: 'h5', name: 'title' }
 		]},
-		{ kind: 'FittableColumns', fit: true, components: [
-			{ kind: 'Panels', fit: true, arrangerKind: 'CarouselArranger', name: 'stepList' },
-		]},
+		{ kind: 'Panels', fit: true, arrangerKind: 'CarouselArranger', name: 'stepList', classes: 'panels-wide' },
 		{ kind: 'onyx.Toolbar', components: [
 			{ kind: 'onyx.Grabber' }
 		]}
@@ -25,9 +23,9 @@ enyo.kind({
 	},
 	
 	projectChanged: function() {
-		this.$.title.setContent(this.project.title)
 		var self = this
-		console.debug('this',this)
+		
+		this.$.title.setContent(this.project.title)
 		
 		enyo.forEach(this.project.steps, function(step) {
 			console.debug(step)

@@ -6,5 +6,6 @@ enyo.depends(
 	'Project.js',
 	'Project.css',
 	'Board.js',
+	'Board.css',
 	'Step.js'
 );
