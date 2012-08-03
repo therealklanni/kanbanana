@@ -39,23 +39,17 @@ enyo.kind({
 	
 	projectTap: function(inSender, inEvent) {
 		var panels = enyo.$.kanbanana_panels,
-		boardName = 'board_'+ this.projects[inEvent.index].name.split(' ').join('_').toLowerCase()
+		board = enyo.$.kanbanana_board ? enyo.$.kanbanana_board : false,
+		project = this.projects[inEvent.index]
 		
-		// Hide all but requested board
-		enyo.forEach(panels.getPanels().filter(function(panel) {
-			return panels.getPanels().indexOf(panel) > 1
-		}), function(panel) {
-			panel.setShowing(panel.name === boardName)
-			// Need to figure out how to make the shown panel size properly
-		})
-		
-		// If requested board doesn't exist, create it
-		if (!enyo.$[boardName]) {
+		if (!board) {
 			new Board({
-				name: boardName,
-				projectName: this.projects[inEvent.index].name,
-				container: panels
+				name: 'kanbanana_board',
+				container: panels,
+				project: project
 			})
+		} else {
+			board.setProject(project)
 		}
 		
 		panels.render()
@@ -98,6 +92,8 @@ enyo.kind({
 				
 				if (slugs.indexOf(project.slug) === -1) {
 					self.projects.push(new Project(project))
+				} else {
+					// Update existing objects
 				}
 			})
 			
@@ -173,10 +169,15 @@ enyo.kind({
 	},
 	
 	updateSteps: function(inRequest, inResponse) {
-		var self = this
-		
-		enyo.forEach(inResponse, function(step) {
-			self.steps.push(new Step(step))
+		this.steps = inResponse.map(function(step) {
+			return new Step({
+				id: step.id,
+				stepName: step.name,
+				queueName: step.queue_name ? step.queue_name : null,
+				wipName: step.wip_name ? step.wip_name : null,
+				allLimit: step.all_limit ? step.all_limit : null,
+				wipLimit: step.wip_limit ? step.wip_limit : null
+			})
 		})
 	}
 })
