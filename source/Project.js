@@ -182,7 +182,14 @@ enyo.kind({
 	
 	updateSteps: function(inRequest, inResponse) {
 		this.steps = inResponse.map(function(step) {
-			return new Step(step)
+			return new Step({
+				id: step.id,
+				stepName: step.name,
+				queueName: step.queue_name ? step.queue_name : null,
+				wipName: step.wip_name ? step.wip_name : null,
+				allLimit: step.all_limit ? step.all_limit : null,
+				wipLimit: step.wip_limit ? step.wip_limit : null
+			})
 		})
 	}
 })
