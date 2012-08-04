@@ -27,9 +27,9 @@ enyo.kind({
 		{ kind: 'FittableRows', fit: true, components: [
 			{ kind: 'onyx.Toolbar', components: [
 				{ kind: 'onyx.Grabber' },
-				{ tag: 'h5', name: 'stepName' }
+				{ name: 'stepName' }
 			]},
-			{ fit: true },
+			{ kind: 'TaskList' },
 		]}
 	],
 	

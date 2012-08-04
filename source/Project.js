@@ -54,8 +54,8 @@ enyo.kind({
 		panels.setIndex(1)
 	},
 	
-	getProjects: function(inPlace, inEvent) {
-		xhr = new enyo.Ajax({ url: 'proxy.php' })
+	getProjects: function() {
+		var xhr = new enyo.Ajax({ url: 'proxy.php' })
 		
 		xhr.response(enyo.bind(this, 'updateProjectList'))
 		
@@ -142,7 +142,7 @@ enyo.kind({
 	},
 	
 	getProject: function() {
-		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		var xhr = new enyo.Ajax({ url: 'proxy.php' })
 		
 		xhr.response(enyo.bind(this, 'updateProject'))
 		
@@ -154,7 +154,7 @@ enyo.kind({
 	},
 	
 	getSteps: function() {
-		xhr = new enyo.Ajax({ url: 'proxy.php' })
+		var xhr = new enyo.Ajax({ url: 'proxy.php' })
 		
 		xhr.response(enyo.bind(this, 'updateSteps'))
 		
