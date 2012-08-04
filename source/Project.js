@@ -55,7 +55,7 @@ enyo.kind({
 	},
 	
 	getProjects: function() {
-		var xhr = new enyo.Ajax({ url: 'proxy.php' })
+		var xhr = new enyo.Ajax({ url: 'projects.json' })
 		
 		xhr.response(enyo.bind(this, 'updateProjectList'))
 		
@@ -150,15 +150,11 @@ enyo.kind({
 	},
 	
 	getSteps: function() {
-		var xhr = new enyo.Ajax({ url: 'proxy.php' })
+		var xhr = new enyo.Ajax({ url: 'steps.json' })
 		
 		xhr.response(enyo.bind(this, 'updateSteps'))
 		
-		xhr.go({
-			path: 'projects/'+this.slug+'/steps.json',
-			email: this.acctEmail,
-			key: this.acctKey
-		})
+		xhr.go()
 	},
 	
 	updateProject: function(inRequest, inResponse) {
