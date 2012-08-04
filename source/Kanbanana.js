@@ -7,7 +7,7 @@ enyo.kind({
 		{ kind: 'Panels', fit: true, classes: 'panels-sliding-panels', arrangerKind: 'CollapsingArranger', wrap: false, components: [
 			{ kind: 'FittableRows', components: [
 				{ kind: 'onyx.Toolbar', components: [
-					{ tag: 'h5', content: 'Kanbanana', classes: 'kanbanana title' }
+					{ content: 'Kanbanana', classes: 'kanbanana title' }
 				]},
 				{ fit: true, components: [
 					{ kind: 'onyx.Groupbox', components: [
@@ -26,7 +26,7 @@ enyo.kind({
 			]},
 			{ kind: 'FittableRows', classes: 'fittable-shadow', components: [
 				{ kind: 'onyx.Toolbar', components: [
-					{ tag: 'h5', content: 'Your Projects' }
+					{ content: 'Your Projects' }
 				]},
 				{ kind: 'ProjectList', fit: true },
 				{ kind: 'onyx.Toolbar', components: [

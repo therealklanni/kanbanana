@@ -4,27 +4,43 @@ enyo.kind({
 	classes: 'fittable-shadow',
 	
 	published: {
-		projectName: null,
+		project: {}
 	},
 	
-	constructor: function() {
-		this.instanceArray = []
-		this.inherited(arguments)
-		this.components = [
-			{ kind: 'onyx.Toolbar', components: [
-				{ tag: 'h5', name: 'projectName' }
-			]}
-		]
-		
-		console.debug(this)
-	},
+	components: [
+		{ kind: 'onyx.Toolbar', components: [
+			{ name: 'title' }
+		]},
+		{ kind: 'Panels', fit: true, arrangerKind: 'CarouselArranger', name: 'stepList', classes: 'panels-wide' },
+		{ kind: 'onyx.Toolbar', components: [
+			{ kind: 'onyx.Grabber' }
+		]}
+	],
 	
 	create: function() {
 		this.inherited(arguments)
-		this.projectNameChanged()
+		this.projectChanged()
 	},
 	
-	projectNameChanged: function() {
-		this.$.projectName.setContent(this.projectName)
+	projectChanged: function() {
+		var self = this
+		
+		self.$.title.setContent(this.project.title)
+		
+		while (self.$.stepList.children.length > 0) {
+		enyo.forEach(self.$.stepList.children, function(e) {
+			self.$.stepList.removeChild(e)
+		})
+		}
+		
+		self.render()
+		
+		enyo.forEach(this.project.steps, function(step) {
+			self.$.stepList.addControl(new StepSlide({
+				name: self.name +'_stepList_'+ step.stepName.split(' ').join('_').toLowerCase(),
+				stepName: step.stepName,
+				stepId: step.id
+			}))
+		})
 	}
 })
