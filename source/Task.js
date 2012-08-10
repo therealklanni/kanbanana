@@ -59,55 +59,55 @@ enyo.kind({
 	},
 	
 	getTasks: function() {
-		var self = this,
-		project = enyo.$.kanbanana_board.project,
-		step = enyo.filter(enyo.$.kanbanana_board.project.steps, function(e) {
-			return self.parent.parent.stepId === e.id
-		})[0]
-		
-		var xhr = new enyo.Ajax({ url: 'proxy.php' })
-		
-		xhr.response(enyo.bind(self, 'updateTaskList', self))
-		
-		xhr.go({
-			path: 'projects/'+project.slug+'/steps/'+step.id+'/tasks.json',
-			email: project.acctEmail,
-			key: project.acctKey
-		})
+		//var self = this,
+		//project = enyo.$.kanbanana_board.project,
+		//step = enyo.filter(enyo.$.kanbanana_board.project.steps, function(e) {
+		//	return self.parent.parent.stepId === e.id
+		//})[0]
+		//
+		//var xhr = new enyo.Ajax({ url: 'proxy.php' })
+		//
+		//xhr.response(enyo.bind(self, 'updateTaskList', self))
+		//
+		//xhr.go({
+		//	path: 'projects/'+project.slug+'/steps/'+step.id+'/tasks.json',
+		//	email: project.acctEmail,
+		//	key: project.acctKey
+		//})
 	},
 	
 	updateTaskList: function(taskList, inRequest, inResponse) {
-		console.debug(arguments)
-		var self = this
-		
-		if (inResponse instanceof Array) {
-			enyo.forEach(enyo.map(inResponse, function(e) {
-				return {
-					title: e.title,
-					assignee: e.assigned_to,
-					note: e.note,
-					wip: e.wip,
-					urgent: e.urgent
-				}
-			}), function(task) {
-				taskList.tasks.push(new Task(task))
-			})
-			
-			taskList.$.taskList.setCount(taskList.tasks.length)
-		}
-		
-		if (this.pulled) {
-			taskList.$.taskList.completePull()
-		} else {
-			taskList.$.taskList.reset()
-		}
+		//console.debug(arguments)
+		//var self = this
+		//
+		//if (inResponse instanceof Array) {
+		//	enyo.forEach(enyo.map(inResponse, function(e) {
+		//		return {
+		//			title: e.title,
+		//			assignee: e.assigned_to,
+		//			note: e.note,
+		//			wip: e.wip,
+		//			urgent: e.urgent
+		//		}
+		//	}), function(task) {
+		//		taskList.tasks.push(new Task(task))
+		//	})
+		//	
+		//	taskList.$.taskList.setCount(taskList.tasks.length)
+		//}
+		//
+		//if (this.pulled) {
+		//	taskList.$.taskList.completePull()
+		//} else {
+		//	taskList.$.taskList.reset()
+		//}
 	},
 	
 	setupItem: function(inSender, inEvent) {
-		var i = inEvent.index
-		var task = this.tasks[i]
-		
-		this.$.title.setContent(task.title)
-		this.$.assignee.setContent(task.assignee)
+		//var i = inEvent.index
+		//var task = this.tasks[i]
+		//
+		//this.$.title.setContent(task.title)
+		//this.$.assignee.setContent(task.assignee)
 	},
 })

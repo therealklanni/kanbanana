@@ -8,8 +8,9 @@ enyo.kind({
 	},
 	
 	components: [
+		{ kind: 'Signals', onBoardUpdate: 'updateBoard' },
 		{ kind: 'onyx.Toolbar', components: [
-			{ name: 'title' }
+			{ name: 'title', content: 'Steps' }
 		]},
 		{ kind: 'Panels', fit: true, arrangerKind: 'CarouselArranger', name: 'stepList', classes: 'panels-wide' },
 		{ kind: 'onyx.Toolbar', components: [
@@ -19,28 +20,21 @@ enyo.kind({
 	
 	create: function() {
 		this.inherited(arguments)
-		this.projectChanged()
+		//this.projectChanged()
 	},
 	
-	projectChanged: function() {
+	updateBoard: function(inEvent, inSender) {
 		var self = this
 		
-		self.$.title.setContent(this.project.title)
+		if (self.$.stepList.getComponents().length > 0) self.$.stepList.destroyClientControls()
 		
-		while (self.$.stepList.children.length > 0) {
-		enyo.forEach(self.$.stepList.children, function(e) {
-			self.$.stepList.removeChild(e)
-		})
-		}
-		
-		self.render()
-		
-		enyo.forEach(this.project.steps, function(step) {
-			self.$.stepList.addControl(new StepSlide({
+		enyo.forEach(inSender.steps, function(step) {
+			self.$.stepList.createComponent({
+				kind: 'StepSlide',
 				name: self.name +'_stepList_'+ step.stepName.split(' ').join('_').toLowerCase(),
 				stepName: step.stepName,
 				stepId: step.id
-			}))
+			})
 		})
 	}
 })
