@@ -35,17 +35,12 @@ enyo.kind({
 	
 	projectTap: function(inSender, inEvent) {
 		var panels = enyo.$.kanbanana_panels,
-		board = enyo.$.kanbanana_board ? enyo.$.kanbanana_board : false,
 		project = this.projects[inEvent.index]
 		
-		if (!board) {
-			new Board({
-				name: 'kanbanana_board',
-				container: panels,
-				project: project
-			})
+		if (panels.$.kanbanana_board) {
+			enyo.Signals.send('onBoardUpdate', project)
 		} else {
-			board.setProject(project)
+			panels.createComponent({ kind: 'Board', name: 'kanbanana_board', project: project })
 		}
 		
 		panels.render()
