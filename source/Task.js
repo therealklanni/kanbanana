@@ -61,11 +61,7 @@ enyo.kind({
 	getTasks: function() {
 		var step = this.parent.parent
 		
-		new enyo.Ajax({ url: 'proxy.php' }).response(enyo.bind(this, 'updateTaskList', this)).go({
-			path: 'projects/'+step.slug+'/steps/'+step.stepId+'/tasks.json',
-			email: localStorage.getItem('acctEmail'),
-			key: localStorage.getItem('acctKey')
-		})
+		new enyo.Ajax({ url: 'tasks.json' }).response(enyo.bind(this, 'updateTaskList', this)).go()
 	},
 	
 	updateTaskList: function(taskList, inRequest, inResponse) {
