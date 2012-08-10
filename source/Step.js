@@ -7,7 +7,8 @@ enyo.kind({
 		queueName: '',
 		wipName: '',
 		allLimit: 0,
-		wipLimit: 0
+		wipLimit: 0,
+		tasks: []
 	}
 })
 
