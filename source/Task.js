@@ -28,8 +28,8 @@ enyo.kind({
 	components: [
 		{ kind: 'PulldownList', name: 'taskList', fit: true, classes: 'list-pulldown-list', onSetupItem: 'setupItem', onPullRelease: 'pullRelease', onPullComplete: 'pullComplete', components: [
 			{ ontap: 'taskTap', classes: 'list-pulldown-item enyo-border-box', components: [
-				{ name: 'title'},
-				{ name: 'assignee'}
+				{ name: 'title' },
+				{ name: 'assignee' }
 			]}
 		]}
 	],
@@ -53,61 +53,52 @@ enyo.kind({
 		this.$.projectList.reset()
 	},
 	
-	projectTap: function(inSender, inEvent) {
+	taskTap: function(inSender, inEvent) {
 		var task = this.tasks[inEvent.index]
 		console.debug(task)
 	},
 	
 	getTasks: function() {
-		//var self = this,
-		//project = enyo.$.kanbanana_board.project,
-		//step = enyo.filter(enyo.$.kanbanana_board.project.steps, function(e) {
-		//	return self.parent.parent.stepId === e.id
-		//})[0]
-		//
-		//var xhr = new enyo.Ajax({ url: 'proxy.php' })
-		//
-		//xhr.response(enyo.bind(self, 'updateTaskList', self))
-		//
-		//xhr.go({
-		//	path: 'projects/'+project.slug+'/steps/'+step.id+'/tasks.json',
-		//	email: project.acctEmail,
-		//	key: project.acctKey
-		//})
+		var step = this.parent.parent
+		
+		new enyo.Ajax({ url: 'proxy.php' }).response(enyo.bind(this, 'updateTaskList', this)).go({
+			path: 'projects/'+step.slug+'/steps/'+step.stepId+'/tasks.json',
+			email: localStorage.getItem('acctEmail'),
+			key: localStorage.getItem('acctKey')
+		})
 	},
 	
 	updateTaskList: function(taskList, inRequest, inResponse) {
-		//console.debug(arguments)
-		//var self = this
-		//
-		//if (inResponse instanceof Array) {
-		//	enyo.forEach(enyo.map(inResponse, function(e) {
-		//		return {
-		//			title: e.title,
-		//			assignee: e.assigned_to,
-		//			note: e.note,
-		//			wip: e.wip,
-		//			urgent: e.urgent
-		//		}
-		//	}), function(task) {
-		//		taskList.tasks.push(new Task(task))
-		//	})
-		//	
-		//	taskList.$.taskList.setCount(taskList.tasks.length)
-		//}
-		//
-		//if (this.pulled) {
-		//	taskList.$.taskList.completePull()
-		//} else {
-		//	taskList.$.taskList.reset()
-		//}
+		var self = this
+		taskList.tasks = []
+		
+		if (enyo.isArray(inResponse)) {
+			enyo.forEach(enyo.map(inResponse, function(e) {
+				return {
+					title: e.title,
+					assignee: e.assigned_to,
+					note: e.note,
+					wip: e.wip,
+					urgent: e.urgent
+				}
+			}), function(task) {
+				taskList.tasks.push(new Task(task))
+			})
+			
+			taskList.$.taskList.setCount(taskList.tasks.length)
+		}
+		
+		if (this.pulled) {
+			taskList.$.taskList.completePull()
+		} else {
+			taskList.$.taskList.reset()
+		}
 	},
 	
 	setupItem: function(inSender, inEvent) {
-		//var i = inEvent.index
-		//var task = this.tasks[i]
-		//
-		//this.$.title.setContent(task.title)
-		//this.$.assignee.setContent(task.assignee)
+		var task = this.tasks[inEvent.index]
+		
+		this.$.title.setContent(task.title)
+		this.$.assignee.setContent(task.assignee)
 	},
 })

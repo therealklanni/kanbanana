@@ -41,6 +41,7 @@ enyo.kind({
 			enyo.Signals.send('onBoardUpdate', project)
 		} else {
 			panels.createComponent({ kind: 'Board', name: 'kanbanana_board', project: project })
+			enyo.Signals.send('onBoardUpdate', project)
 		}
 		
 		panels.render()
@@ -50,11 +51,11 @@ enyo.kind({
 	},
 	
 	getProjects: function() {
-		var xhr = new enyo.Ajax({ url: 'projects.json' })
-		
-		xhr.response(enyo.bind(this, 'updateProjectList'))
-		
-		xhr.go()
+		new enyo.Ajax({ url: 'proxy.php' }).response(enyo.bind(this, 'updateProjectList')).go({
+			path: 'projects.json',
+			email: this.acctEmail,
+			key: this.acctKey
+		})
 	},
 	
 	updateProjectList: function(inRequest, inResponse) {
@@ -133,11 +134,7 @@ enyo.kind({
 	},
 	
 	getProject: function() {
-		var xhr = new enyo.Ajax({ url: 'proxy.php' })
-		
-		xhr.response(enyo.bind(this, 'updateProject'))
-		
-		xhr.go({
+		new enyo.Ajax({ url: 'proxy.php' }).response(enyo.bind(this, 'updateProject')).go({
 			path: 'projects/'+this.slug+'.json',
 			email: this.acctEmail,
 			key: this.acctKey
@@ -145,11 +142,11 @@ enyo.kind({
 	},
 	
 	getSteps: function() {
-		var xhr = new enyo.Ajax({ url: 'steps.json' })
-		
-		xhr.response(enyo.bind(this, 'updateSteps'))
-		
-		xhr.go()
+		new enyo.Ajax({ url: 'proxy.php' }).response(enyo.bind(this, 'updateSteps')).go({
+			path: 'projects/'+this.slug+'/steps.json',
+			email: this.acctEmail,
+			key: this.acctKey
+		})
 	},
 	
 	updateProject: function(inRequest, inResponse) {

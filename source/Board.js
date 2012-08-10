@@ -4,7 +4,8 @@ enyo.kind({
 	classes: 'fittable-shadow',
 	
 	published: {
-		project: {}
+		project: {},
+		title: ''
 	},
 	
 	components: [
@@ -26,15 +27,24 @@ enyo.kind({
 	updateBoard: function(inEvent, inSender) {
 		var self = this
 		
-		if (self.$.stepList.getComponents().length > 0) self.$.stepList.destroyClientControls()
+		self.setTitle(inSender.title)
+		
+		if (self.$.stepList.getComponents().length > 0) {
+			self.$.stepList.destroyClientControls()
+		}
 		
 		enyo.forEach(inSender.steps, function(step) {
 			self.$.stepList.createComponent({
 				kind: 'StepSlide',
-				name: self.name +'_stepList_'+ step.stepName.split(' ').join('_').toLowerCase(),
+				name: step.stepName.split(' ').join('_').toLowerCase(),
 				stepName: step.stepName,
-				stepId: step.id
+				stepId: step.id,
+				slug: inSender.slug
 			})
 		})
+	},
+	
+	titleChanged: function() {
+		this.$.title.setContent(this.title)
 	}
 })
