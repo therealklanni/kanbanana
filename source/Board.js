@@ -10,8 +10,13 @@ enyo.kind({
 	
 	components: [
 		{ kind: 'Signals', onBoardUpdate: 'updateBoard' },
-		{ kind: 'onyx.Toolbar', components: [
-			{ name: 'title', content: 'Steps' }
+		{ kind: 'onyx.Toolbar', classes: 'onyx-menu-toolbar', components: [
+			{ name: 'title', content: 'Steps' },
+			{ kind: 'onyx.TooltipDecorator', style: 'float: right', components: [
+				{ kind: 'onyx.Button', content: '>', style: 'float: right', ontap: 'nextSlide' },
+				{ kind: 'onyx.Button', content: '<', style: 'float: right', ontap: 'prevSlide' },
+				{ kind: 'onyx.Tooltip', content: 'tap to navigate steps' }
+			]}
 		]},
 		{ kind: 'Panels', fit: true, arrangerKind: 'CarouselArranger', name: 'stepList', classes: 'panels-wide' },
 		{ kind: 'onyx.Toolbar', components: [
@@ -21,7 +26,14 @@ enyo.kind({
 	
 	create: function() {
 		this.inherited(arguments)
-		//this.projectChanged()
+	},
+
+	nextSlide: function() {
+		this.$.stepList.next()
+	},
+
+	prevSlide: function() {
+		this.$.stepList.previous()
 	},
 	
 	updateBoard: function(inEvent, inSender) {

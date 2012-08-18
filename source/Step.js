@@ -26,9 +26,17 @@ enyo.kind({
 	
 	components: [
 		{ kind: 'FittableRows', fit: true, components: [
-			{ kind: 'onyx.Toolbar', components: [
+			{ kind: 'onyx.Toolbar', classes: 'onyx-menu-toolbar', components: [
 				{ kind: 'onyx.Grabber' },
-				{ name: 'stepName' }
+				{ name: 'stepName' },
+				{ kind: 'onyx.MenuDecorator', style: 'float: right', components: [
+					{ content: '...' },
+					{ kind: 'onyx.Menu', components: [
+						{ content: 'new task' },
+						{ classes: 'onyx-menu-divider' },
+						{ content: 'refresh', ontap: 'refreshList' }
+					]}
+				]}
 			]},
 			{ kind: 'TaskList' },
 		]}
@@ -41,5 +49,9 @@ enyo.kind({
 	
 	stepNameChanged: function() {
 		this.$.stepName.setContent(this.stepName)
+	},
+
+	refreshList: function() {
+		this.waterfall('onRefreshList')
 	}
 })
