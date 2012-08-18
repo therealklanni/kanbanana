@@ -33,6 +33,10 @@ enyo.kind({
 			]}
 		]}
 	],
+
+	handlers: {
+		'onRefreshList': 'refreshList'
+	},
 	
 	create: function() {
 		this.inherited(arguments)
@@ -50,12 +54,16 @@ enyo.kind({
 	
 	pullComplete: function () {
 		this.pulled = false
-		this.$.projectList.reset()
+		this.$.taskList.reset()
 	},
 	
 	taskTap: function(inSender, inEvent) {
 		var task = this.tasks[inEvent.index]
 		console.debug(task)
+	},
+
+	refreshList: function() {
+		this.pullRelease()
 	},
 	
 	getTasks: function() {
